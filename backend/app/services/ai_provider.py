@@ -103,7 +103,7 @@ async def call_llm(system: str, user: str) -> str | None:
                     }
                 )
                 return None
-                
+
         except httpx.RequestError as e:
             latency_ms = int((time.time() - start_time) * 1000)
             failure_type = "timeout" if isinstance(e, httpx.TimeoutException) else "connection_error"
@@ -132,7 +132,7 @@ async def call_llm(system: str, user: str) -> str | None:
         if attempt < LLM_MAX_RETRIES:
             sleep_time = LLM_RETRY_BACKOFF * (2 ** attempt)
             await asyncio.sleep(sleep_time)
-            
+
     logger.error(
         f"Provider timeout after {LLM_MAX_RETRIES} retries.",
         extra={
